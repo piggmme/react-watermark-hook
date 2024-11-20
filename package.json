@@ -1,8 +1,14 @@
 {
   "name": "react-watermark-hook",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "1.0.0",
   "type": "module",
+  "main": "dist/react-watermark-hook.js",
+  "repository": "https://github.com/piggmme/awesome-headless",
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc --p ./tsconfig-build.json && vite build",
