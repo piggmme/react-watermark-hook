@@ -1,10 +1,10 @@
 {
-  "name": "react-watermark-hook",
+  "name": "use-watermark",
   "private": false,
-  "version": "1.0.0-rc.0",
+  "version": "0.0.0",
   "type": "module",
-  "main": "dist/react-watermark-hook.js",
-  "repository": "https://github.com/piggmme/react-watermark-hook",
+  "main": "dist/use-watermark.js",
+  "repository": "https://github.com/piggmme/use-watermark",
   "types": "dist/main.d.ts",
   "files": [
     "dist"

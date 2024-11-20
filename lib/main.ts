@@ -1,1 +1,1 @@
-export { default as useWatermark } from './useWatermark'
+export default './useWatermark'

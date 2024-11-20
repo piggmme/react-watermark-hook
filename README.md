@@ -1,7 +1,7 @@
-# React Watermark Hook
+# useWatermark
 
 ```bash
-npm i react-watermark-hook
-pnpm i react-watermark-hook
-yarn add react-watermark-hook
+npm i use-watermark
+pnpm i use-watermark
+yarn add use-watermark
 ```
