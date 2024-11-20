@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useMemo } from 'react'
 
-type WatermarkImageOption = {
-  /**
-   * Set the font size of the watermark.
-   * @example 14
-   * @default 14
-   */
-  fontSize: number
+type WatermarkOption = {
   /**
    * Set the angle of the watermark.
    * @default -45
@@ -27,28 +21,24 @@ type WatermarkImageOption = {
    * @default '#000000'
    */
   color: string
-}
 
-type WatermarkOption = {
   /**
    * Set the size of the watermark.
-   * @example '180px 180px'
-   * @default '180px 180px'
+   * @example 180
+   * @default 180
    */
-  size: string
-} & WatermarkImageOption
+  size: number
+}
 
 const defaultOption: WatermarkOption = {
-  fontSize: 14,
   angle: -45,
   opacity: 0.05,
-  size: '180px 180px',
+  size: 180,
   color: '#000000',
 }
 
-export default function useWatermark (text: string, option?: WatermarkOption) {
+export default function useWatermark (text: string, option?: Partial<WatermarkOption>) {
   const {
-    fontSize,
     angle,
     opacity,
     size,
@@ -56,8 +46,8 @@ export default function useWatermark (text: string, option?: WatermarkOption) {
   } = { ...defaultOption, ...option }
   const [container, setContainer] = useState<HTMLElement | null>(null)
   const watermarkImage = useMemo(
-    () => createWatermarkImage(text, { fontSize, angle, opacity, color }),
-    [text, fontSize, angle, opacity],
+    () => createWatermarkImage(text, { angle, opacity, color, size }),
+    [text, angle, opacity, size],
   )
 
   const ref = useCallback((node: Element | null | undefined) => {
@@ -73,14 +63,15 @@ export default function useWatermark (text: string, option?: WatermarkOption) {
     if (!container) return
 
     container.style.backgroundImage = `url(${watermarkImage})`
-    container.style.backgroundSize = size
+    container.style.backgroundSize = `${size}px ${size}px`
   }, [container, watermarkImage, size])
 
   return { ref, watermarkImage }
 }
 
-const createWatermarkImage = (text: string, options: WatermarkImageOption) => {
-  const { fontSize, angle, opacity, color } = options
+const createWatermarkImage = (text: string, options: WatermarkOption) => {
+  const { angle, opacity, color, size } = options
+  const fontSize = size / text.length
 
   // Consider the device's pixel ratio for resolution adjustment
   const devicePixelRatio = window.devicePixelRatio || 1
