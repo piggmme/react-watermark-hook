@@ -1,13 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import useWatermark from '../lib/useWatermark'
 
 function App () {
   const [count, setCount] = useState(0)
-  const { ref } = useWatermark('Watermark', {
-    angle: 20,
-    opacity: 0.1,
-    size: 180,
+  const [watermarkText, setWatermarkText] = useState(`Watermark ${new Date().toISOString()}`)
+
+  useEffect(() => {
+    setInterval(() => {
+      setWatermarkText(`Watermark ${new Date().toISOString()}`)
+    }, 3000)
+  }, [])
+
+  const { ref } = useWatermark(watermarkText, {
+    opacity: 0.3,
+    angle: -25,
+    gap: 10,
+    size: 300,
     color: '#ff0000',
   })
 
