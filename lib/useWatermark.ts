@@ -16,7 +16,7 @@ type WatermarkOption = {
   opacity: number
 
   /**
-   * Set the font color of the watermark.
+   * Set the font hexa color of the watermark.
    * @example '#000000'
    * @default '#000000'
    */
@@ -28,6 +28,13 @@ type WatermarkOption = {
    * @default 180
    */
   size: number
+
+  /**
+   * Set the gap between the watermark.
+   * @example 10
+   * @default 0
+   */
+  gap: number
 }
 
 const defaultOption: WatermarkOption = {
@@ -35,18 +42,22 @@ const defaultOption: WatermarkOption = {
   opacity: 0.05,
   size: 180,
   color: '#000000',
+  gap: 0,
 }
 
 export default function useWatermark (text: string, option?: Partial<WatermarkOption>) {
   const {
     angle,
     opacity,
-    size,
     color,
+    gap,
+    size,
   } = { ...defaultOption, ...option }
   const [container, setContainer] = useState<HTMLElement | null>(null)
   const watermarkImage = useMemo(
-    () => createWatermarkImage(text, { angle, opacity, color, size }),
+    () => createWatermarkImage(text, {
+      angle, opacity, color, size, gap,
+    }),
     [text, angle, opacity, size],
   )
 
@@ -70,11 +81,13 @@ export default function useWatermark (text: string, option?: Partial<WatermarkOp
 }
 
 const createWatermarkImage = (text: string, options: WatermarkOption) => {
-  const { angle, opacity, color, size } = options
-  const fontSize = size / text.length
+  const {
+    angle, opacity, color, size, gap,
+  } = options
 
   // Consider the device's pixel ratio for resolution adjustment
   const devicePixelRatio = window.devicePixelRatio || 1
+  const fontSize = size * (devicePixelRatio * 1.5) / text.length
 
   // Calculate the width and height
   const canvas = document.createElement('canvas')
@@ -89,8 +102,8 @@ const createWatermarkImage = (text: string, options: WatermarkOption) => {
 
   // Calculate the canvas size that can fully accommodate the text when rotated
   const canvasSize = Math.ceil(Math.sqrt(textWidth ** 2 + textHeight ** 2))
-  canvas.width = canvasSize
-  canvas.height = canvasSize
+  canvas.width = canvasSize + gap
+  canvas.height = canvasSize + gap
 
   // Scaling for high resolution
   ctx.scale(devicePixelRatio, devicePixelRatio)
