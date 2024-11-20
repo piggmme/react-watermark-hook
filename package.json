@@ -1,10 +1,10 @@
 {
   "name": "react-watermark-hook",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.0-rc.0",
   "type": "module",
   "main": "dist/react-watermark-hook.js",
-  "repository": "https://github.com/piggmme/awesome-headless",
+  "repository": "https://github.com/piggmme/react-watermark-hook",
   "types": "dist/main.d.ts",
   "files": [
     "dist"
